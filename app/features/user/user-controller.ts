@@ -12,9 +12,13 @@ export default class UserController {
   async getUsers(req: Request, res: Response) {
 
     const result: Result<UserData[]> = await userService.getUsers();
-    
-    return res.sendResponse(result.getStatusCode(), result.getMessage(), result.getData());
-    
+
+    if (result.isSuccess()) {
+      return res.sendResponse(result.getStatusCode(), result.getMessage(), result.getData());
+    } else if (result.isFailure()) {
+      return res.sendResponse(result.getStatusCode(), result.getMessage());
+    }
+
   }
 
   async getUserById(req: Request, res: Response) {
@@ -22,6 +26,10 @@ export default class UserController {
 
     const result: Result<UserData> = await userService.getUserById(userId);
 
-    return res.sendResponse(result.getStatusCode(), result.getMessage(), result.getData());
+    if (result.isSuccess()) {
+      return res.sendResponse(result.getStatusCode(), result.getMessage(), result.getData());
+    } else if (result.isFailure()) {
+      return res.sendResponse(result.getStatusCode(), result.getMessage());
+    }
   }
 }
