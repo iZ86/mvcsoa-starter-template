@@ -113,17 +113,18 @@ Features are self-contained modules under `app/features/<domain-name>/`. Each fe
 | File | Role |
 |------|------|
 | `*-controller.ts` | Handles incoming HTTP requests and delegates to the service layer |
-| `*-service.ts` | Contains the business logic, **can be used across service layer** in other domains. |
+| `*-service.ts` | Contains the business logic, **can be shared across service layer** in other domains. |
 | `*-repository.ts` | Handles all database queries / data access |
-| `*-model.ts` | Defines the data model / schema / datatype, **can be used across** other domains. |
+| `*-model.ts` | Defines the data model / schema / datatype, **can be shared across** other domains. |
 | `*-routes.ts` | Declares the route definitions for the domain |
-| `*-validator.ts` | Validates incoming request data, **can be used across** other domains. |
-| `*-enums.ts` | Contains enums specific to the domain. However, **can be used across** other domains. |
+| `*-validator.ts` | Validates incoming request data, **can be shared across** other domains. |
+| `*-enums.ts` | Contains enums specific to the domain. However, **can be shared across** other domains. |
 
 
 Example:
 
 - **User** — Handles user related domain.
+- **Notes** - Handles note related domain.
 
 ---
 
@@ -139,15 +140,15 @@ Wrapper for express response method res.status.json for simpler and easier devel
 
 ### `libs/Result.ts`
 
-Used to return a standardized result from service layer to controller, follow the Result Pattern.
+Used to return a standardized result from service layer to controller, follows the Result Pattern.
 
 ### `libs/ResultType.ts`
 
 An experimental version of Result.ts that provides stronger type safety. It is currently somewhat verbose, but may provide better flow compared to Result.ts under certain conditions.
 
-### `libs/status-codes-enums.ts`
+### `libs/status-codes-enum.ts`
 
-Enums for status codes.
+Enum for status codes.
 
 ---
 
@@ -193,24 +194,9 @@ Used both normal MVC driven file structure, where files are grouped by service, 
 
 This is just a wrapper that is used to send a standardized response, since all of the responses have the same format.
 
-### Models, Services, Validators, and Enums allowed to be used across domains.
+### Models, Services, Validators, and Enums allowed to be shared across domains.
 
-Some domains may interact with other domains. For example, a Student may be allowed to enroll into a Programme.
-As such, in the Programme service layer, there may need to call the Student service layer to verify the validity of the studentId given. 
-
-For example:
-```
-POST api/v1/programme/enroll
-
-{
-    studentId: 1,
-    programmeId: 1
-}
-
-```
-
-This prevents redundant similar types of codes from being spread across the domains.
-
+Some domains may interact with other domains. For example, a Student may be allowed to enroll into a Programme. As such, in the Programme service layer, there may need to call the Student service layer to verify the validity of the studentId given. An example of shared services implementation can be seen in `app/features/note/note-service.ts`. Whereas, an example of shared validator implementation can be seen in `app/features/note/note-route.ts`.
 
 
 
