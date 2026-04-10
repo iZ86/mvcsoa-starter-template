@@ -24,7 +24,7 @@ class UserService implements IUserService {
     const user: UserData | undefined = await userRepository.getUserById(userId);
 
     if (!user) {
-      return Result.fail(ENUM_STATUS_CODES_FAILURE.NOT_FOUND, "User not found.", { userId: 1, username: "iz" } as UserData);
+      return Result.fail(ENUM_STATUS_CODES_FAILURE.NOT_FOUND, "User not found.");
     }
 
     return Result.succeed(ENUM_STATUS_CODES_SUCCESS.OK, user, `User ${userId} found.`);
