@@ -5,7 +5,7 @@ import validate from "../../middlewares/validate";
 /** May be used in other domains. */
 export const userParamValidator: any = [
   param('userId')
-    .exists().withMessage("Missing userId.")
+    .notEmpty().withMessage("Missing userId.")
     .isInt().withMessage("userId must be an integer"),
   validate,
 ];
